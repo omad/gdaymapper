@@ -1,15 +1,18 @@
 <html>
 <head>
     <title>Day Mapper</title>
-    <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
     <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
     <script src="gdaymapper.js"></script>
+    <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
 </head>
 <body>
     <h1>Day Mapper</h1>
 
     <button id="authorize-button" style="visibility: hidden">Authorize</button>
 
+	Select your calendar: <select class="calendarList"><option value="blank"></option></select>
+	Day: <input class="day"></input> Month: <input class="month"></input>
+	Year: <input class="year"></input>
     <pre id="response"></pre>
 </body>
 </html>

@@ -1,20 +1,20 @@
-$(function() {
-    handleClientLoad();
-});
-function boo() {
-        console.log('login complete');
-        console.log(gapi.auth.getToken());
-    }
+// $(function() {
+//     handleClientLoad();
+// });
+
+var scopes = 'https://www.googleapis.com/auth/calendar.readonly';
+var clientId = '603971821012-bd6lksgdh1sopsghcm8opa1vfqdh27i5.apps.googleusercontent.com';
 
 function handleClientLoad() {
-    var config = {
-        'client_id': '603971821012-bd6lksgdh1sopsghcm8opa1vfqdh27i5.apps.googleusercontent.com',
-        'scope': 'https://www.googleapis.com/auth/calendar.readonly'
-      };
-    gapi.auth.authorize(config, handleAuthResult);
+  populateDateFields();
+    window.setTimeout(checkAuth,1);
+}
+function checkAuth() {
+    gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true}, handleAuthResult);
 }
 
 function handleAuthResult(authResult) {
+    var authToken = gapi.auth.getToken();
     var authorizeButton = document.getElementById('authorize-button');
     if (authResult && !authResult.error) {
       authorizeButton.style.visibility = 'hidden';
@@ -41,15 +41,42 @@ function makeApiCall() {
     request.execute(function(resp) {
         var calendars = JSON.stringify(resp, null, 4);
 
-        $('#id').html(calendars);
-
-      // var heading = document.createElement('h4');
-      // var image = document.createElement('img');
-      // image.src = resp.image.url;
-      // heading.appendChild(image);
-      // heading.appendChild(document.createTextNode(resp.displayName));
-
-      // document.getElementById('content').appendChild(heading);
+        var html = '';
+        for (var i = 0; i < resp.items.length; i++) {
+          html += '<option value="' + resp.items[i].id + '">' + resp.items[i].summary + '</option>';
+        }
+        $('select.calendarList').append(html).change(onSelectCalendar);
     });
+  });
+}
+
+function onSelectCalendar(event) {
+  var calendarId = $(this).val();
+  console.log("Calendar selected", {t: this, e: event});
+  console.log("Selected", calendarId);
+
+  loadEvents();
+}
+
+function populateDateFields() {
+  var today = new Date();
+  $('input.day').val(today.getDate());
+  $('input.month').val(today.getMonth());
+  $('input.year').val(today.getFullYear());
+}
+
+function loadEvents() {
+  var calendarId = $('select.calendarList').val();
+  var year = $('input.year').val();
+  var month = $('input.month').val();
+  var day = parseInt($('input.day').val(), 10);
+  var today = new Date(year, month, day).toISOString();
+  var tomorrow = new Date(year, month, day + 1).toISOString();
+
+  var request = gapi.client.calendar.events.list({calendarId: calendarId,
+    timeMin: today, timeMax: tomorrow});
+
+  request.execute(function(resp) {
+    console.log("events", resp);
   });
 }
