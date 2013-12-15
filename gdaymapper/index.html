@@ -3,25 +3,27 @@
 <head>
     <title>Day Mapper</title>
     <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-    <script src="gdaymapper.js"></script>
     <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJvC6bvbmMYi4AQforXFFRz3oFelWmW-I&sensor=false"/>
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJvC6bvbmMYi4AQforXFFRz3oFelWmW-I&sensor=false"></script>
     <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
-    <style type="text/css">
-      html { height: 100% }
-      body { height: 100%; margin: 0; padding: 0 }
-      #map-canvas { height: 100% }
-    </style>
+    <script src="gdaymapper.js"></script>
+    <link href="gdaymapper.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
-    <h1>Day Mapper</h1>
+    <h1>Day2 Mapper</h1>
 
-    <button id="authorize-button" style="visibility: hidden">Authorize</button>
+    <button id="authorize-button">Authorize</button>
 
 	Select your calendar: <select class="calendarList"><option value="blank"></option></select>
 	Day: <input class="day"></input> Month: <input class="month"></input>
 	Year: <input class="year"></input>
     <pre id="response"></pre>
-    <div id="map-canvas"/>
+    <div id="results-content">
+      <div id="map-canvas"></div>
+      <div id="events-sidebar">
+        <h2>Events list</h2>
+        <div id="events-list"></div>
+      </div>
+    </div>
 </body>
 </html>

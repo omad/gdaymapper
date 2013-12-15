@@ -5,9 +5,21 @@
 var scopes = 'https://www.googleapis.com/auth/calendar.readonly';
 var clientId = '603971821012-bd6lksgdh1sopsghcm8opa1vfqdh27i5.apps.googleusercontent.com';
 
-function handleClientLoad() {
+$(function initialize() {
+    var mapOptions = {
+      center: new google.maps.LatLng(-34.397, 150.644),
+      zoom: 8
+    };
+    var map = new google.maps.Map(document.getElementById("map-canvas"),
+        mapOptions);
+
+  $('#authorize-button').click(checkAuth);
   populateDateFields();
-    window.setTimeout(checkAuth,1);
+  // window.setTimeout(checkAuth,1);
+});
+
+function handleClientLoad() {
+  console.log("handleClientLoad");
 }
 function checkAuth() {
     gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true}, handleAuthResult);
@@ -81,11 +93,3 @@ function loadEvents() {
   });
 }
 
-$(function initialize() {
-    var mapOptions = {
-      center: new google.maps.LatLng(-34.397, 150.644),
-      zoom: 8
-    };
-    var map = new google.maps.Map(document.getElementById("map-canvas"),
-        mapOptions);
-});
