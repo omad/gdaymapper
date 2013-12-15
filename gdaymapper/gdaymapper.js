@@ -91,5 +91,8 @@ function loadEvents() {
   request.execute(function(resp) {
     console.log("events", resp);
   });
+
+  var source = $("#events-template").html();
+  var template = Handlebars.compile(source);
 }
 
