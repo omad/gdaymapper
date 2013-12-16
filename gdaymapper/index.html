@@ -7,6 +7,7 @@
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJvC6bvbmMYi4AQforXFFRz3oFelWmW-I&sensor=false"></script>
     <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.1.2/handlebars.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.4.0/moment.min.js"></script>
     <script src="gdaymapper.js"></script>
     <link href="gdaymapper.css" type="text/css" rel="stylesheet"/>
 </head>
@@ -30,6 +31,15 @@
 
 
   <script id="events-template" type="text/x-handlebars-template">
+  <ul>
+  {{#each items}}
+    <li>
+      <a href="{{htmlLink}}">{{summary}}</a> at {{formatTime start.dateTime}}<br/>
+      for {{timeDiff start.dateTime end.dateTime}}<br/>
+      <b>Location:</b> {{location}}<br/>
+    </li>
+  {{/each}}
+  </ul>
   </script>
 </body>
 </html>

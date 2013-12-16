@@ -4,6 +4,7 @@
 
 var scopes = 'https://www.googleapis.com/auth/calendar.readonly';
 var clientId = '603971821012-bd6lksgdh1sopsghcm8opa1vfqdh27i5.apps.googleusercontent.com';
+var timeFormat = "h:mm a";
 
 $(function initialize() {
     var mapOptions = {
@@ -16,6 +17,19 @@ $(function initialize() {
   $('#authorize-button').click(checkAuth);
   populateDateFields();
   // window.setTimeout(checkAuth,1);
+  Handlebars.registerHelper("formatTime", function(datetime) {
+    if (moment) {
+      return moment(datetime).format(timeFormat);
+    } else {
+      return datetime;
+    }
+  });
+  Handlebars.registerHelper("timeDiff", function(startTime, endTime) {
+    if (moment) {
+      var timediff = moment(endTime).diff(moment(startTime));
+      return moment.duration(timediff).humanize();
+    }
+  });
 });
 
 function handleClientLoad() {
@@ -90,9 +104,14 @@ function loadEvents() {
 
   request.execute(function(resp) {
     console.log("events", resp);
+
+    // Process template
+    var source = $("#events-template").html();
+    var template = Handlebars.compile(source);
+
+    var html = template(resp);
+    $("#events-list").html(html);
   });
 
-  var source = $("#events-template").html();
-  var template = Handlebars.compile(source);
 }
 
