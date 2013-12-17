@@ -7,16 +7,16 @@ var clientId = '603971821012-bd6lksgdh1sopsghcm8opa1vfqdh27i5.apps.googleusercon
 var timeFormat = "h:mm a";
 
 $(function initialize() {
-    var mapOptions = {
-      center: new google.maps.LatLng(-34.397, 150.644),
-      zoom: 8
-    };
-    var map = new google.maps.Map(document.getElementById("map-canvas"),
-        mapOptions);
+  var mapOptions = {
+    center: new google.maps.LatLng(-34.397, 150.644),
+    zoom: 8
+  };
+  var map = new google.maps.Map(document.getElementById("map-canvas"),
+      mapOptions);
 
-  $('#authorize-button').click(checkAuth);
+  $('#authorize-button').click(handleAuthClick);
   populateDateFields();
-  // window.setTimeout(checkAuth,1);
+  window.setTimeout(checkAuth,3000);
   Handlebars.registerHelper("formatTime", function(datetime) {
     if (moment) {
       return moment(datetime).format(timeFormat);
